@@ -1,0 +1,33 @@
+{
+  "name": "abro",
+  "version": "1.0.0",
+  "description": "Automation Browser (aka Abro) enable end-users to create automation based on their web browsing experience",
+  "main": "abro.js",
+  "bin": "abro.js",
+  "scripts": {
+    "build": "node pre.build && pkg package.json",
+    "start": "node abro"
+  },
+  "dependencies": {
+    "puppeteer": "24.10.2"
+  },
+  "devDependencies": {
+    "pkg": "5.8.0"
+  },
+  "pkg": {
+    "assets": [
+      "node_modules/puppeteer/.local-chromium/**/*"
+    ],
+    "scripts": "abro.js",
+    "targets": [
+      "node*-alpine",
+      "node*-linux",
+      "node*-win",
+      "node*-macos"
+    ],
+    "outputPath": "../bin/gen"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT-0"
+}

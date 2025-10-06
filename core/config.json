@@ -1,0 +1,20 @@
+{
+  "browser": {
+    "executablePath": "C:/Program Files/Google/Chrome/Application/chrome.exe",
+    "headless": false,
+    "waitUntil": "domcontentloaded",
+    "devtools": false,
+    "dumpio": true,
+    "defaultViewport": null,
+    "args": [
+      "--start-maximized",
+      "--no-sandbox",
+      "--disable-gpu",
+      "--no-first-run",
+      "--no-zygote",
+      "--no-omnibox-search-button"
+    ]
+  },
+  "controller": "ctrl.demo.js",
+  "homepage": "http://localhost:404"
+}
