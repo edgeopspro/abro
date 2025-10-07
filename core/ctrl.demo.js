@@ -5,7 +5,7 @@ function log(msg, obj) {
 function parse(req) {
   return {
     id: req.id,
-    metod: req.method(),
+    method: req.method(),
     url: req.url(),
     headers: req.headers(),
     body: req.postData() || null
