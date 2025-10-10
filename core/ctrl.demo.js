@@ -60,3 +60,13 @@ page.on('response', async res => {
 
   log(page.mainFrame()._id, data)
 })
+
+return {
+  start: async () => {
+    log('statring...')
+    await page.setRequestInterception(true)
+  },
+  stop: () => {
+    log('bye bye')
+  }
+}

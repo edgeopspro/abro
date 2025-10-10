@@ -1,10 +1,24 @@
 const { readFile } = require('node:fs/promises')
 const { launch } = require('puppeteer')
 
-async function eventify(ctx, page) {
-  await page.setRequestInterception(true)
+async function eventify(browser, ctx, page) {
+  function invoke(event) {
+    if (event instanceof Function) {
+      event(ctx, page)
+    }
+  }
 
-  ctx.controller(ctx, page)
+  const events = ctx.controller(ctx, page)
+
+  if (events) {
+    await invoke(events.start)
+
+    browser.on('disconnected', async () => {
+      if ((await browser.pages()).length === 0) {
+        await invoke(events.stop)
+      }
+    })
+  }
 }
 
 async function load(profile) {
@@ -22,7 +36,8 @@ async function load(profile) {
         return { 
           config,
           console,
-          controller: new Function('ctx', 'page', controller)
+          controller: new Function('ctx', 'page', controller),
+          require
         }
       } else {
         console.error(`invalid config file`)
@@ -52,11 +67,11 @@ async function run(ctx) {
       const page = await target.page()
   
       if (page) {
-        await eventify(ctx, page)
+        await eventify(browser, ctx, page)
       }
     })
 
-    await eventify(ctx, page)
+    await eventify(browser, ctx, page)
     await page.goto(config.homepage || 'about:blank')
   } catch (error) {
     console.warn(error)
